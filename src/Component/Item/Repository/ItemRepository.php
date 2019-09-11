@@ -21,6 +21,9 @@ class ItemRepository extends ServiceEntityRepository
      */
     private $imageUpload;
 
+
+    private $orderCart;
+
     /**
      * ItemRepository constructor.
      * @param RegistryInterface $registry
@@ -32,6 +35,8 @@ class ItemRepository extends ServiceEntityRepository
     ) {
         parent::__construct($registry, Item::class);
         $this->imageUpload = $imageUpload;
+
+        $this->orderCart = $this->findOneBy(['name' => 'OrderCart']);
     }
 
     /**
@@ -89,12 +94,13 @@ class ItemRepository extends ServiceEntityRepository
     }
 
     /**
-     * delete item from the database
      * @param Item $item
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function deleteProduct(Item $item)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getEntityManager();
         $entityManager->remove($item);
         $entityManager->flush();
     }

@@ -2,13 +2,12 @@
 
 namespace App\Controller;
 
-use App\Component\Cart\Model\Cart;
 use App\Component\Cart\Repository\CartRepository;
+use App\Component\Item\Manager\ItemManager;
 use App\Component\Item\Model\Item;
 use App\Form\ItemType;
 use App\Component\Item\Repository\ItemRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,19 +19,23 @@ use Symfony\Component\Security\Core\Security;
 class ItemController extends AbstractController
 {
     private $security;
-    private $cartRepo;
+    private $cartRepository;
     private $itemRepository;
     private $orderCart;
+    private $itemManger;
 
     public function __construct(
         Security $security,
-        CartRepository $repository,
-        ItemRepository $itemRepository
+        ItemRepository $itemRepository,
+        CartRepository $cartRepository,
+        ItemManager $itemManager
     ) {
         $this->security = $security;
-        $this->cartRepo = $repository;
         $this->itemRepository = $itemRepository;
-        $this->orderCart = $this->cartRepo->findOneBy(['name' => 'OrderCart']);
+        $this->cartRepository = $cartRepository;
+        $this->itemManger = $itemManager;
+
+        $this->orderCart = $cartRepository->findOneBy(['name' => 'OrderCart']);
     }
 
     /**
@@ -134,13 +137,7 @@ class ItemController extends AbstractController
     public function order(Item $item)
     {
         $authenticatedUser = $this->security->getUser();
-        $newItem = clone $item;
-        $newItem->setUser($authenticatedUser);
-        $newItem->setCart($this->orderCart);
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($newItem);
-        $entityManager->flush();
+        $this->itemManger->orderItem($item, $authenticatedUser);
 
         return $this->redirectToRoute('cart_show', ['id'=>$this->orderCart->getId()]);
     }
@@ -150,11 +147,9 @@ class ItemController extends AbstractController
      * @param Item $item
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function delete_item_from_cart(Item $item)
+    public function deleteItemFromCart(Item $item)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($item);
-        $entityManager->flush();
+        $this->itemManger->removeProduct($item);
         return $this->redirectToRoute('cart_show', ['id'=>$this->orderCart->getId()]);
     }
 }
