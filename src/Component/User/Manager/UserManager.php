@@ -1,11 +1,9 @@
 <?php
 
+namespace App\Component\User\Manager;
 
-namespace App\Manager;
-
-
-use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Component\Manager\BaseManager;
+use App\Component\User\Repository\UserRepository;
 
 class UserManager extends BaseManager
 {
@@ -21,7 +19,7 @@ class UserManager extends BaseManager
         $user = $this->userRepository->findOneBy(['fasebookid' => $bot->getUser()->getId()]);
 
         if (empty($user)) {
-            $this->userRepository->insertUserWithFaceBookId($bot);
+            $user = $this->userRepository->insertUserWithFaceBookId($bot);
         }
 
         return $user;

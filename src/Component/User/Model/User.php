@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Component\User\Model;
 
 use App\Component\Item\Model\Item;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Component\User\Repository\UserRepository")
  * @UniqueEntity(fields={"email", "username"}, message="This one is already taken.")
  */
 class User implements UserInterface

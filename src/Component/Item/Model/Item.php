@@ -4,7 +4,7 @@ namespace App\Component\Item\Model;
 
 use App\Component\Cart\Model\Cart;
 use App\Component\Item\Model\ItemType;
-use App\Entity\User;
+use App\Component\User\Model\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,7 +52,7 @@ class Item
     private $image;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="items")
+     * @ORM\ManyToOne(targetEntity="App\Component\User\Model\User", inversedBy="items")
      */
     private $user;
 

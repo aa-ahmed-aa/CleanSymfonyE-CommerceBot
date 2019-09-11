@@ -1,7 +1,6 @@
 <?php
 
-
-namespace App\Manager;
+namespace App\Component\Manager;
 
 abstract class BaseManager
 {

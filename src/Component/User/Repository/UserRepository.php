@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Component\User\Repository;
 
-use App\Entity\User;
+use App\Component\User\Model\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -40,5 +39,7 @@ class UserRepository extends ServiceEntityRepository
 
         $entityManager->persist($user);
         $entityManager->flush();
+
+        return $user;
     }
 }

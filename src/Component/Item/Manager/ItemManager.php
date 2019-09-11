@@ -1,10 +1,10 @@
 <?php
 
-
-namespace App\Manager;
+namespace App\Component\Item\Manager;
 
 use App\Component\Item\Model\Item;
 use App\Component\Item\Repository\ItemRepository;
+use App\Component\Manager\BaseManager;
 
 class ItemManager extends BaseManager
 {

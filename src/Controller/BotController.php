@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Component\Cart\Repository\CartRepository;
-use App\Manager\ItemManager;
-use App\Manager\UserManager;
+use App\Component\Item\Manager\ItemManager;
+use App\Component\User\Manager\UserManager;
 use BotMan\Drivers\Facebook\Extensions\GenericTemplate;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
