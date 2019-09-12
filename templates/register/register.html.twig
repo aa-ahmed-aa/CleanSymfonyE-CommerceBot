@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RegisterController!{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+    {{ form(form) }}
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $('#user_password_first').addClass('form-control');
+    $('#user_password_second').addClass('form-control');
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+doctrine:
+    dbal:
+        # configure these for your database server
+        driver: 'pdo_mysql'
+        server_version: '5.7'
+        charset: utf8mb4
+        default_table_options:
+            charset: utf8mb4
+            collate: utf8mb4_unicode_ci
+
+        url: '%env(resolve:DATABASE_URL)%'
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        mappings:
+            App\Component\Cart\Model:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Component/Cart/Model'
+                prefix: 'App\Component\Cart\Model'
+            App\Component\Item\Model:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Component/Item/Model'
+                prefix: 'App\Component\Item\Model'
+            App\Component\User\Model:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Component/User/Model'
+                prefix: 'App\Component\User\Model'
