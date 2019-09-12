@@ -2,6 +2,7 @@
 
 namespace App\Component\User\Repository;
 
+use App\Component\User\Model\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
