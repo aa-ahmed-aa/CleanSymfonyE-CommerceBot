@@ -28,7 +28,7 @@ services:
     WidgetModel:
         class: AppBundle\Model\WidgetModel
         scope: prototype
-        arguments: [%widgets%, "@=service('request').getBaseUrl()"]
+        arguments: [%widgets%,"@=service('request_stack').getCurrentRequest().getBaseUrl()"
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
