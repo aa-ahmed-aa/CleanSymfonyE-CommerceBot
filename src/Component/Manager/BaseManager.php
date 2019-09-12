@@ -2,7 +2,9 @@
 
 namespace App\Component\Manager;
 
-abstract class BaseManager
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+abstract class BaseManager extends AbstractController
 {
 
 }

@@ -23,7 +23,7 @@ class UserManager extends BaseManager
             /**
              * Will register facebook user with id
              */
-            $entityManager = $this->getEntityManager();
+            $entityManager = $this->getDoctrine()->getManager();
 
             $user = new User();
             $user->setUsername($bot->getUser()->getFirstName());
