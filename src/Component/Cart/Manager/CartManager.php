@@ -11,7 +11,7 @@ class CartManager extends BaseManager
     private $cartRepository;
     private $orderCart;
 
-    public function __construct(ItemRepository $cartRepository)
+    public function __construct(CartRepository $cartRepository)
     {
         $this->cartRepository = $cartRepository;
         $this->orderCart = $this->itemRepository ->findOneBy(['name' => 'OrderCart']);
