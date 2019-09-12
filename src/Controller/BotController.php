@@ -70,13 +70,12 @@ class BotController extends AbstractController
                 ->addImageAspectRatio(GenericTemplate::RATIO_SQUARE)
                 ->addElements($products));
         });
-
         $botman->hears('remove_from_cart {id}', function (BotMan $bot, $id) {
-            // $item = $this->itemManager->getSingleProduct($id);
+            $item = $this->itemManager->getSingleProduct($id);
 
-            // $item = $this->itemManager->removeProduct($item);
+            $item = $this->itemManager->removeProduct($item);
             
-            $bot->reply('i removed '. $id.' from your Cart');
+            $bot->reply('i removed '.$item->getName() .' from your Cart');
         });
 
         $botman->hears('add_to_cart {id}', function (BotMan $bot, $id) {

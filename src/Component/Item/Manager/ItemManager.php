@@ -45,9 +45,9 @@ class ItemManager extends BaseManager
         return $this->itemRepository->findProductsForCurrentUser($user);
     }
 
-    public function getSingleProduct(Item $item): Item
+    public function getSingleProduct($item_id)
     {
-        return $item;
+        return  $this->itemRepository->findOneBy(['id' => $item_id]);
     }
 
     public function removeProduct(Item $item)
