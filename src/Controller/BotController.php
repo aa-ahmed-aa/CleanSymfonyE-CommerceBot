@@ -74,7 +74,7 @@ class BotController extends AbstractController
         $botman->hears('remove_from_cart {id}', function (BotMan $bot, $id) {
             $item = $this->itemManager->getSingleProduct($id);
 
-            $item = $this->itemManager->removeProduct($item);
+            // $item = $this->itemManager->removeProduct($item);
             
             $bot->reply('i removed '. $item->getName() .' from your Cart');
         });
