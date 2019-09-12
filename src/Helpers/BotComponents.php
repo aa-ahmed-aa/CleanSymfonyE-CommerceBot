@@ -28,9 +28,9 @@ class BotComponents
         foreach ($items as $item) {
             $temp = Element::create($item->getName())
                 ->subtitle('Price : ' . $item->getPrice())
-                ->image($this->request->getScheme() . '://' . $this->request->getHttpHost() . $this->request->getBasePath().'/uploads/' . $item->getImage())
+                ->image($_ENV['base_url'].'/uploads/' . $item->getImage())
                 ->addButton(ElementButton::create('Visit')
-                    ->url($this->request->getScheme() . '://' . $this->request->getHttpHost() . $this->request->getBasePath().'/item/'.$item->getId()));
+                    ->url($_ENV['base_url'].'/item/'.$item->getId()));
 
             //for cart list no add to cart button
             if (!$forCart) {
