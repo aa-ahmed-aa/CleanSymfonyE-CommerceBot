@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use App\Component\Cart\Manager\CartManager;
 
 /**
  * @Route("/cart")
@@ -48,7 +49,7 @@ class CartController extends AbstractController
         $this->cartRepository = $cartRepository;
         $this->security = $security;
         $this->itemRepository = $itemRepository;
-        $this->CartManager = $cartManager;
+        $this->cartManager = $cartManager;
     }
 
     /**
