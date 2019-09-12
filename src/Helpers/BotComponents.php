@@ -20,9 +20,9 @@ class BotComponents
         foreach ($items as $item) {
             $temp = Element::create($item->getName())
                 ->subtitle('Price : ' . $item->getPrice())
-                ->image('https://enigmatic-mesa-24739.herokuapp.com/uploads/' . $item->getImage())
+                ->image(getBaseUrl().'/uploads/' . $item->getImage())
                 ->addButton(ElementButton::create('Visit')
-                    ->url('https://enigmatic-mesa-24739.herokuapp.com/item/'.$item->getId()));
+                    ->url(getBaseUrl().'/item/'.$item->getId()));
 
             //for cart list no add to cart button
             if (!$forCart) {
