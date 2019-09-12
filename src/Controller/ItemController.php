@@ -149,7 +149,7 @@ class ItemController extends AbstractController
      */
     public function deleteItemFromCart(Item $item)
     {
-        $this->itemManger->removeProduct($item);
+        $item = $this->itemManger->removeProduct($item);
         return $this->redirectToRoute('cart_show', ['id'=>$this->orderCart->getId()]);
     }
 }

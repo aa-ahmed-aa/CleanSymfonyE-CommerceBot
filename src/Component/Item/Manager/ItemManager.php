@@ -52,7 +52,7 @@ class ItemManager extends BaseManager
 
     public function removeProduct(Item $item)
     {
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($item);
         $entityManager->flush();
         return $item;
