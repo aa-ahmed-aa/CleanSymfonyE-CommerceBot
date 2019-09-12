@@ -6,9 +6,17 @@ use App\Component\User\Model\User;
 use App\Repository\UserRepository;
 use BotMan\Drivers\Facebook\Extensions\Element;
 use BotMan\Drivers\Facebook\Extensions\ElementButton;
+use Symfony\Component\HttpFoundation\Request;
 
 class BotComponents
 {
+    private $request;
+
+    public function __constructor__(Request $request)
+    {
+        $this->request = $request;
+    }
+
     /**
      * @param $items
      * @param bool $forCart
@@ -20,9 +28,9 @@ class BotComponents
         foreach ($items as $item) {
             $temp = Element::create($item->getName())
                 ->subtitle('Price : ' . $item->getPrice())
-                ->image(getBaseUrl().'/uploads/' . $item->getImage())
+                ->image($this->request->getScheme() . '://' . $this->request->getHttpHost() . $this->request->getBasePath().'/uploads/' . $item->getImage())
                 ->addButton(ElementButton::create('Visit')
-                    ->url(getBaseUrl().'/item/'.$item->getId()));
+                    ->url($this->request->getScheme() . '://' . $this->request->getHttpHost() . $this->request->getBasePath().'/item/'.$item->getId()));
 
             //for cart list no add to cart button
             if (!$forCart) {
