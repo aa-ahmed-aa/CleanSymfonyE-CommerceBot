@@ -41,12 +41,14 @@ class CartController extends AbstractController
     public function __construct(
         CartRepository $cartRepository,
         Security $security,
-        ItemRepository $itemRepository
+        ItemRepository $itemRepository,
+        CartManager $cartManager
     )
     {
         $this->cartRepository = $cartRepository;
         $this->security = $security;
         $this->itemRepository = $itemRepository;
+        $this->CartManager = $cartManager;
     }
 
     /**
@@ -56,7 +58,7 @@ class CartController extends AbstractController
     public function index(): Response
     {
         return $this->render('cart/index.html.twig', [
-            'carts' => $this->cartRepository->findAll(),
+            'carts' => $this->cartManager->findAllCarts(),
         ]);
     }
 
