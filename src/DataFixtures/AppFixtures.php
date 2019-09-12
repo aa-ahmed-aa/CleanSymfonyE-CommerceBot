@@ -6,7 +6,7 @@ use App\Component\Cart\Model\Cart;
 use App\Component\Cart\Model\CartType;
 use App\Component\Item\Model\Item;
 use App\Component\Item\Model\ItemType;
-use App\Entity\User;
+use App\Component\User\Model\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;

@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Entity\User;
+use App\Component\User\Model\User;
 use App\Repository\UserRepository;
 use BotMan\Drivers\Facebook\Extensions\Element;
 use BotMan\Drivers\Facebook\Extensions\ElementButton;
