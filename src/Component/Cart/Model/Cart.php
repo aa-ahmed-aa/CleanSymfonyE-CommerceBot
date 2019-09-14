@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Component\Cart\Repository\CartRepository")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="dicsr", type="string")
+ * @ORM\DiscriminatorMap({"cart" = "Cart", "ordercart" = "OrderCart", "wishlistcart" = "WishlistCart"})
  */
 class Cart
 {
@@ -20,20 +23,9 @@ class Cart
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Component\Cart\Model\CartType", inversedBy="carts")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $cart_type;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Component\Item\Model\Item", mappedBy="cart")
      */
     private $items;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
 
     public function __construct()
     {
@@ -43,18 +35,6 @@ class Cart
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCartType(): ?CartType
-    {
-        return $this->cart_type;
-    }
-
-    public function setCartType(?CartType $cart_type): self
-    {
-        $this->cart_type = $cart_type;
-
-        return $this;
     }
 
     /**
@@ -88,17 +68,17 @@ class Cart
         return $this;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+    // public function getName(): ?string
+    // {
+    //     return $this->name;
+    // }
 
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
+    // public function setName(?string $name): self
+    // {
+    //     $this->name = $name;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function __toString() {
         return (string) $this->name;

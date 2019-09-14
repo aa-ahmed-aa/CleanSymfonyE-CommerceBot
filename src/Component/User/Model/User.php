@@ -3,6 +3,7 @@
 namespace App\Component\User\Model;
 
 use App\Component\Item\Model\Item;
+use App\Component\Cart\Model\Cart;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,19 +41,14 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Component\Item\Model\Item", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Component\Cart\Model\Cart", mappedBy="user")
      */
-    private $items;
+    private $carts;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $fasebookid;
-
-    public function __construct()
-    {
-        $this->items = new ArrayCollection();
-    }
+    private $facebook_id;
 
     public function getId(): ?int
     {
@@ -95,6 +91,33 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Cart[]
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+    public function addCart(Cart $cart): self
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts[] = $cart;
+            $cart->setUser($this);
+        }
+        return $this;
+    }
+    public function removeCart(Cart $cart): self
+    {
+        if ($this->carts->contains($cart)) {
+            $this->carts->removeElement($cart);
+            // set the owning side to null (unless already changed)
+            if ($cart->getUser() === $this) {
+                $cart->setUser(null);
+            }
+        }
+        return $this;
+    }
+
     public function getRoles()
     {
         return [
@@ -112,45 +135,14 @@ class User implements UserInterface
         // TODO: Implement eraseCredentials() method.
     }
 
-    /**
-     * @return Collection|Item[]
-     */
-    public function getItems(): Collection
+    public function getFacebookId(): ?string
     {
-        return $this->items;
+        return $this->facebook_id;
     }
 
-    public function addItem(Item $item): self
+    public function setFacebookId(?string $facebook_id): self
     {
-        if (!$this->items->contains($item)) {
-            $this->items[] = $item;
-            $item->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeItem(Item $item): self
-    {
-        if ($this->items->contains($item)) {
-            $this->items->removeElement($item);
-            // set the owning side to null (unless already changed)
-            if ($item->getUser() === $this) {
-                $item->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getFasebookid(): ?string
-    {
-        return $this->fasebookid;
-    }
-
-    public function setFasebookid(?string $fasebookid): self
-    {
-        $this->fasebookid = $fasebookid;
+        $this->facebook_id = $facebook_id;
 
         return $this;
     }

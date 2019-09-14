@@ -20,7 +20,7 @@ class UserManager extends BaseManager
 
     public function getSubscriber($bot)
     {
-        $user = $this->userRepository->findOneBy(['fasebookid' => $bot->getUser()->getId()]);
+        $user = $this->userRepository->findOneBy(['facebook_id' => $bot->getUser()->getId()]);
 
         if (empty($user)) {
                 
@@ -41,7 +41,7 @@ class UserManager extends BaseManager
         $user->setUsername($bot->getUser()->getFirstName());
         $user->setPassword($this->encoder->encodePassword($user, 'ahmedkhaled'));
         $user->setEmail($bot->getUser()->getFirstName().'@'.$bot->getUser()->getLastName().'.com');
-        $user->setFasebookid($bot->getUser()->getId());
+        $user->setFacebook_id($bot->getUser()->getId());
 
         $entityManager->persist($user);
         $entityManager->flush();

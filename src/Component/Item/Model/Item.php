@@ -41,12 +41,6 @@ class Item
     private $cart;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Component\Item\Model\ItemType", inversedBy="items")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $item_type;
-
-    /**
      * @ORM\Column(type="string")
      */
     private $image;
@@ -105,18 +99,6 @@ class Item
     public function setCart(?Cart $cart): self
     {
         $this->cart = $cart;
-
-        return $this;
-    }
-
-    public function getItemType(): ?ItemType
-    {
-        return $this->item_type;
-    }
-
-    public function setItemType(?ItemType $item_type): self
-    {
-        $this->item_type = $item_type;
 
         return $this;
     }
