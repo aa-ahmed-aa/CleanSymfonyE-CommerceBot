@@ -8,28 +8,23 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for cart in carts %}
             <tr>
-                <td>{{ cart.id }}</td>
-                <td>{{ cart.name }}</td>
+                <td>Order Cart</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('cart_show', {'id': cart.id}) }}">show</a>
-                    <a class="btn btn-warning" href="{{ path('cart_edit', {'id': cart.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('cart_show', {'id': 'OrderCart'}) }}">show Cart Items</a>
                 </td>
             </tr>
-        {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td>Wishlist Cart</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('cart_show', {'id': 'WishlistCart'}) }}">show Cart Items</a>
+                </td>
             </tr>
-        {% endfor %}
         </tbody>
     </table>
-
-    <a class="btn btn-success" href="{{ path('cart_new') }}">Create new</a>
 {% endblock %}

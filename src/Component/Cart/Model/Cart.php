@@ -2,15 +2,16 @@
 
 namespace App\Component\Cart\Model;
 
-use App\Component\Item\Model\Item;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Component\Item\Model\Item;
+use App\Component\User\Model\User;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Component\Cart\Repository\CartRepository")
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="dicsr", type="string")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"cart" = "Cart", "ordercart" = "OrderCart", "wishlistcart" = "WishlistCart"})
  */
 class Cart
@@ -21,6 +22,12 @@ class Cart
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Component\User\Model\User", inversedBy="carts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Component\Item\Model\Item", mappedBy="cart")
@@ -68,17 +75,23 @@ class Cart
         return $this;
     }
 
-    // public function getName(): ?string
-    // {
-    //     return $this->name;
-    // }
+   /**
+     * {@inheritdoc}
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function setUser(?User $user)
+    {
+        $this->user = $user;
 
-    // public function setName(?string $name): self
-    // {
-    //     $this->name = $name;
-
-    //     return $this;
-    // }
+        return $this;
+    }
 
     public function __toString() {
         return (string) $this->name;

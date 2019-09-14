@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
 
         $form->handleRequest($request);
 
-        if( $form->isSubmitted() && $form->isValid() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             //create new user
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $manager->persist($user);
@@ -46,7 +46,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('register/register.html.twig',[
+        return $this->render('register/register.html.twig', [
             'form' => $form->createView()
         ]);
     }

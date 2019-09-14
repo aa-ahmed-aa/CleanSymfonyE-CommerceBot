@@ -3,8 +3,9 @@
 namespace App\Component\Cart\Repository;
 
 use App\Component\Cart\Model\Cart;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Component\User\Model\User;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Cart|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,14 @@ class CartRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findCartsByUser(User $user)
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.user', 'u')
+            ->andWhere('u.id = :user_id')
+            ->setParameter('user_id', $user->getId())
+            ->getQuery()
+            ->getResult();
+    }
 }

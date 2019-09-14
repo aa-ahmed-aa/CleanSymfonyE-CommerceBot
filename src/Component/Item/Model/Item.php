@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Component\Item\Repository\ItemRepository")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"item" = "Item", "normalitem" = "NormalItem", "saleitem" = "SaleItem"})
  */
 class Item
 {
@@ -44,11 +47,6 @@ class Item
      * @ORM\Column(type="string")
      */
     private $image;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Component\User\Model\User", inversedBy="items")
-     */
-    private $user;
 
     public function getId(): ?int
     {
@@ -117,17 +115,5 @@ class Item
 
     public function __toString() {
         return (string) $this->name;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 }
