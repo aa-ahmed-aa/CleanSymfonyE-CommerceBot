@@ -4,34 +4,39 @@ namespace App\Component\Item\Manager;
 
 use App\Component\Item\Model\Item;
 use App\Component\Item\Repository\ItemRepository;
+use App\Component\Cart\Manager\CartManager;
 use App\Component\Manager\BaseManager;
 
 class ItemManager extends BaseManager
 {
     private $itemRepository;
-    private $orderCart;
+    private $cartManager;
 
-    public function __construct(ItemRepository $itemRepository)
+    public function __construct(ItemRepository $itemRepository, CartManager $cartManager)
     {
         $this->itemRepository = $itemRepository;
-        $this->orderCart = $this->itemRepository ->findOneBy(['name' => 'OrderCart']);
+        $this->cartManager = $cartManager;
     }
 
     public function orderItem(Item $item, $user)
     {
-        /**
-         * If the item is already in the cart do not add it and
-         * log you already have this in your cart
-        */
+        //instantiate order and wishlist carts
+        $this->cartManager->instantiateCart();
+
+        //insert new product
         $entityManager = $this->getDoctrine()->getManager();
-
         $newItem = clone $item;
-        $newItem->setUser($user);
-        $newItem->setCart($this->orderCart);
-
         $entityManager->persist($newItem);
         $entityManager->flush();
-
+        
+        //add the product to the current user orders
+        $entityManager = $this->getDoctrine()->getManager();
+        $orderCart = $this->cartManager->getOrderCart();
+        $orderCart->addItem($newItem);
+        $entityManager->persist($orderCart);
+        $entityManager->flush();
+        
+        //retrun the item
         return $item;
     }
 

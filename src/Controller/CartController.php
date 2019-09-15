@@ -36,27 +36,30 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/", name="cart_index", methods={"GET"})
-     * @return Response
-     */
-    public function index(): Response
-    {
-        return $this->render('cart/index.html.twig');
-    }
-
-    /**
-     * @Route("/{id}", name="cart_show", methods={"GET"})
+     * @Route("/my_orders", name="my_cart", methods={"GET"})
      * @param Cart $cart
      * @return Response
      */
-    public function show($cartType): Response
+    public function myOrders(): Response
     {
-        $authenticatedUser = $this->security->getUser();
-        // $items = $this->itemRepository->findProductsForCurrentUser($authenticatedUser);
-
+        $items = $this->cartManager->getOrderCart()->getItems()->getValues();
+        
         return $this->render('cart/show.html.twig', [
-            'cart' => $cart
-            // 'items' => $items
+            'items' => $items
+        ]);
+    }
+
+     /**
+     * @Route("/my_wishlist", name="my_wishlist", methods={"GET"})
+     * @param Cart $cart
+     * @return Response
+     */
+    public function myWishList(): Response
+    {
+        $items = $this->cartManager->getWishlistCart()->getItems()->getValues();
+        
+        return $this->render('cart/show.html.twig', [
+            'items' => $items
         ]);
     }
 }

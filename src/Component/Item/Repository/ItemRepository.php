@@ -49,7 +49,7 @@ class ItemRepository extends ServiceEntityRepository
     public function findAllProducts()
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.user IS NULL')
+            ->andWhere('i.cart IS NULL')
             ->getQuery()
             ->getResult();
     }
