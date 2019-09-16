@@ -61,10 +61,9 @@ class ItemRepository extends ServiceEntityRepository
     public function findProductsForCurrentUser($currentUser)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.user = :val')
+            ->andWhere('i.cart = :val')
             ->setParameter('val', $currentUser->getId())
             ->getQuery()
             ->getResult();
     }
-
 }

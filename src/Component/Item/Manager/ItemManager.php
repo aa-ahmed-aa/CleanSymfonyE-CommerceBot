@@ -54,9 +54,11 @@ class ItemManager extends BaseManager
         return $this->itemRepository->findAllProducts();
     }
 
-    public function getAllProductsForUser($user)
+    public function getAllItemsForCurrentUserOrderCart($user)
     {
-        return $this->itemRepository->findProductsForCurrentUser($user);
+        $orderCart = $user->getCarts()->getValues()[1];
+        
+        return $orderCart->getItems()->getValues();
     }
 
     public function getSingleProduct($item_id)

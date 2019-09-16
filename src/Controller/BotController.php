@@ -20,7 +20,6 @@ class BotController extends AbstractController
     private $userManager;
     private $itemManager;
     private $botComponent;
-    private $orderCart;
     private $cartRepo;
     private $encoder;
 
@@ -36,7 +35,6 @@ class BotController extends AbstractController
         $this->botComponent = $botComponent;
         $this->encoder = $encoder;
         $this->cartRepo = $cartRepo;
-        $this->orderCart = $this->cartRepo->findOneBy(['name' => 'OrderCart']);
     }
 
     /**
@@ -73,7 +71,7 @@ class BotController extends AbstractController
         $botman->hears('remove_from_cart {id}', function (BotMan $bot, $id) {
             $item = $this->itemManager->getSingleProduct($id);
 
-            $item = $this->itemManager->removeProduct($item);
+            $item = $this->itemManager->removeItem($item);
             
             $bot->reply('i removed '.$item->getName() .' from your Cart');
         });
@@ -83,15 +81,15 @@ class BotController extends AbstractController
             
             $item = $this->itemManager->getSingleProduct($id);
 
-            $item = $this->itemManager->orderItem($item, $user);
+            $item = $this->itemManager->orderItem($item, 'order');
             
-            $bot->reply('i added '. $item->getName() .' to your Cart');
+            $bot->reply('I added '. $item->getName() .' to your Cart');
         });
-
+        
         $botman->hears('mycart', function (BotMan $bot) {
             $user = $this->userManager->getSubscriber($bot);
 
-            $items = $this->itemManager->getAllProductsForUser($user);
+            $items = $this->itemManager->getAllItemsForCurrentUserOrderCart($user);
             if (!empty($items)) {
                 $products = $this->botComponent->wrapProducts($items, true);
                 $bot->reply(GenericTemplate::create()
