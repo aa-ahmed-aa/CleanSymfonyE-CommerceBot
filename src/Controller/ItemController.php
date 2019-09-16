@@ -47,39 +47,74 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="item_show", methods={"GET"})
+     * @Route("/add_to_cart/{id}", name="add_to_cart", methods={"get"})
      * @param Item $item
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function show(Item $item): Response
+    public function order(Item $item)
+    {
+        $this->itemManger->orderItem($item, 'order');
+
+        return $this->redirectToRoute('my_cart');
+    }
+
+    /**
+     * @Route("/add_to_wishlist/{id}", name="add_to_wishlist", methods={"GET"})
+     * @param Item $item
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function addToWishlist(Item $item)
+    {
+        $this->itemManger->orderItem($item, 'wishlist');
+
+        return $this->redirectToRoute('my_wishlist');
+    }
+
+    /**
+     * @Route("/remove_item_from_cart/{id}", name="remove_item_from_cart", methods={"GET"})
+     * @param Item $item
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function removeItemFromCart(Item $item)
+    {
+        $this->itemManger->removeItem($item);
+
+        return $this->redirectToRoute('my_wishlist');
+    }
+
+    /**
+     * @Route("/show_item/{id}", name="show_item", methods={"get"})
+     * @param Item $item
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function showItem(Item $item): Response
     {
         return $this->render('item/show.html.twig', [
             'item' => $item,
         ]);
     }
 
-
     /**
-     * @Route("/order/{id}", name="item_order", methods={"get"})
+     * @Route("/item_edit/{id}", name="item_edit", methods={"GET","POST"})
+     * @param Request $request
      * @param Item $item
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function order(Item $item)
+    public function itemEdit(Request $request, Item $item): Response
     {
-        $authenticatedUser = $this->security->getUser();
-        $this->itemManger->orderItem($item, $authenticatedUser);
-
-        return $this->redirectToRoute('my_cart');
-    }
-
-    /**
-     * @Route("/remove_from_cart/{id}", name="remove_from_cart", methods={"get"})
-     * @param Item $item
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function deleteItemFromCart(Item $item)
-    {
-        $item = $this->itemManger->removeProduct($item);
-        return $this->redirectToRoute('cart_show', ['id'=>$this->orderCart->getId()]);
+        
+        $form = $this->createForm(ItemType::class, $item);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->itemRepository->uploadImage($form, $item);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('item_index');
+        }
+        
+        return $this->render('item/edit.html.twig', [
+            'item' => $item,
+            'form' => $form->createView(),
+        ]);
     }
 }

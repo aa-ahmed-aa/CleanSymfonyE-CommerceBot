@@ -18,7 +18,7 @@ class ItemManager extends BaseManager
         $this->cartManager = $cartManager;
     }
 
-    public function orderItem(Item $item, $user)
+    public function orderItem(Item $item, $type = 'order')
     {
         //instantiate order and wishlist carts
         $this->cartManager->instantiateCart();
@@ -31,7 +31,16 @@ class ItemManager extends BaseManager
         
         //add the product to the current user orders
         $entityManager = $this->getDoctrine()->getManager();
-        $orderCart = $this->cartManager->getOrderCart();
+        
+        switch ($type) {
+            case 'order':
+                $orderCart = $this->cartManager->getOrderCart();
+                break;
+            case 'wishlist':
+                $orderCart = $this->cartManager->getWishlistCart();
+                break;
+        }
+        
         $orderCart->addItem($newItem);
         $entityManager->persist($orderCart);
         $entityManager->flush();
@@ -55,7 +64,7 @@ class ItemManager extends BaseManager
         return  $this->itemRepository->findOneBy(['id' => $item_id]);
     }
 
-    public function removeProduct(Item $item)
+    public function removeItem(Item $item)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($item);
