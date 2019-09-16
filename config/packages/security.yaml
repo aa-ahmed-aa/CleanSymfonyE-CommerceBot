@@ -37,5 +37,5 @@ security:
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/bot, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: ^/item/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/item/show_item/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

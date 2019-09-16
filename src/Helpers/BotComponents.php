@@ -30,7 +30,7 @@ class BotComponents
                 ->subtitle('Price : ' . $item->getPrice())
                 ->image($_ENV['base_url'].'/uploads/' . $item->getImage())
                 ->addButton(ElementButton::create('Visit')
-                    ->url($_ENV['base_url'].'/item/'.$item->getId()));
+                    ->url($_ENV['base_url'].'/item/show_item/'.$item->getId()));
 
             //for cart list no add to cart button
             if (!$forCart) {
